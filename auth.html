@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-        <meta charset="UTF-8" />
+		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>OTPlessAuth ->JS</title>
 		<link rel="stylesheet" type="text/css" href="style.css" />
@@ -9,8 +9,13 @@
 		<script type="text/javascript" src="script.js" defer></script>
 	</head>
 	<body>
-		<script id="otpless-sdk" type="text/javascript" src="https://otpless.com/v2/auth.js" data-appid="PASTE_YOUR_APPID_HERE"></script>
-		<div id="otpless-login-page"></div>
+		<!-- Adding otpless login page in a modal container -->
+		<div id="modalContainer">
+			<div id="otpless-login-page"></div>
+		</div>
+
+		<!-- button to load otpless login page -->
+		<button type="button" id="showHideBtn">Show/Hide Login</button>
 
 		<script type="text/javascript">
 			function otpless(otplessUser) {
@@ -19,6 +24,84 @@
 				alert(JSON.stringify(otplessUser))
 				window.location.href = '/'
 			}
+		</script>
+
+		<script type="text/javascript">
+			// Logic to show/hide otpless login page
+
+			const button = document.getElementById('showHideBtn')
+			const modalContainer = document.getElementById('modalContainer')
+
+			let isModalOpen = false
+
+			// function to Load OTPless CDN script in head
+			const loadScript = () => {
+				const isScriptLoaded = document.getElementById('otpless-sdk')
+				if (isScriptLoaded) return
+
+				const script = document.createElement('script')
+				script.id = 'otpless-sdk'
+				script.type = 'text/javascript'
+				script.src = 'https://otpless.com/v2/auth.js'
+				// TODO: Add your app id
+				script.setAttribute('data-appid', 'PASTE_YOUR_APPID_HERE')
+				document.head.appendChild(script)
+			}
+
+			// function to unload OTPless CDN script from head
+			const unloadScript = () => {
+				const script = document.getElementById('otpless-sdk')
+				script ? document.head.removeChild(script) : ''
+			}
+
+			const urlParams = new URLSearchParams(window.location.search)
+			const paramsValue = urlParams.get('ex')
+			if (paramsValue) loadScript()
+
+			// function to remove query param from url
+			const removeQueryParam = (param) => {
+				const url = new URL(window.location.href)
+				url.searchParams.delete(param)
+				window.history.pushState(null, '', url)
+			}
+
+			// function to open modal and show otpless login page
+			const openModal = () => {
+				const urlParams = new URLSearchParams(window.location.search)
+				const paramsValue = urlParams.get('ex')
+
+				if (!paramsValue) {
+					const currentURL = window.location.href
+					const newParam1 = 'ex=true'
+					const updatedURL = `${currentURL}?${newParam1}`
+					window.history.pushState(null, '', updatedURL)
+				}
+				loadScript()
+				const modalContainer = document.getElementById('modalContainer')
+				modalContainer ? (modalContainer.style.display = 'flex') : ''
+
+				setTimeout(() => {
+					removeQueryParam('ex')
+				}, 1000)
+			}
+
+			// function to close modal and hide otpless login page
+			const closeModal = () => {
+				removeQueryParam('ex')
+				unloadScript()
+				const modalContainer = document.getElementById('modalContainer')
+				modalContainer ? (modalContainer.style.display = 'none') : ''
+			}
+
+			const showHideModal = () => {
+				if (isModalOpen) closeModal()
+				else openModal()
+				isModalOpen = !isModalOpen
+			}
+
+			// Event listeners to show/hide otpless login page on click
+			button.addEventListener('click', showHideModal)
+			modalContainer.addEventListener('click', showHideModal)
 		</script>
 	</body>
 </html>
