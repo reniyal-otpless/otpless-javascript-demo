@@ -27,7 +27,7 @@
             // Add your Custom logic here to handle UserData(otplessUser) and redirect post authentication.
             console.log(otplessUser);
             alert(JSON.stringify(otplessUser));
-            window.location.href = 'index.html';
+            window.location.href = '/';
         }
     </script>
     ```
