@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+        <meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>OTPlessAuth ->JS</title>
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<link rel="icon" type="image/x-icon" href="https://otpless.com/favicon.ico" />
+		<script type="text/javascript" src="script.js" defer></script>
+	</head>
+	<body>
+		<script id="otpless-sdk" type="text/javascript" src="https://otpless.com/v2/auth.js" data-appid="PASTE_YOUR_APPID_HERE"></script>
+		<div id="otpless-login-page"></div>
+
+		<script type="text/javascript">
+			function otpless(otplessUser) {
+				//  Add your Custom logic here to handle UserData(otplessUser) and redirect post authentication.
+				console.log(otplessUser)
+				alert(JSON.stringify(otplessUser))
+				window.location.href = 'index.html'
+			}
+		</script>
+	</body>
+</html>

@@ -1,5 +1,7 @@
-*, *::before, *::after {
-    box-sizing: border-box;
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
 }
 :root {
 	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -15,8 +17,8 @@ body {
 	margin: 0;
 	display: flex;
 	flex-direction: column;
-    justify-content: center;
-    place-items: center;
+	justify-content: center;
+	place-items: center;
 	min-width: 320px;
 	min-height: 100vh;
 }
@@ -32,12 +34,27 @@ button {
 	cursor: pointer;
 	transition: border-color 0.25s;
 }
+
 button:hover {
 	border-color: #646cff;
 }
+
 button:focus,
-button:focus-visible {
+button:focus-visible,
+#logout-btn:focus,
+#logout-btn:focus-visible {
 	outline: 4px auto -webkit-focus-ring-color;
+}
+
+#logout-btn {
+	font-weight: 500;
+	color: #646cff;
+	text-decoration: inherit;
+	cursor: pointer;
+}
+
+#logout-btn:hover {
+	color: #747bff;
 }
 
 @media (prefers-color-scheme: light) {
@@ -50,3 +67,9 @@ button:focus-visible {
 	}
 }
 
+@media (max-width: 500px) {
+	#otpless-login-page {
+		width: 100vw !important;
+		height: 100vh !important;
+	}
+}
