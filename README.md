@@ -10,8 +10,7 @@
     > Add the code to your sign up/ sign in page where you want to embed your sign in functionality, and replace `PASTE_YOUR_APPID_HERE` with the copied `APP ID` from the dashboard.
 
     ```html
-    <script id="otpless-sdk" type="text/javascript" src="https://otpless.com/v2/auth.js" data-appid="PASTE_YOUR_APPID_HERE"></script>
-    <div id="otpless-login-page"></div>
+    <script id="otpless-sdk" type="text/javascript" src="https://otpless.com/auth.js" appid="PASTE_YOUR_APPID_HERE"></script>
     ```
 
     > [view source](./auth.html#L12)
@@ -32,7 +31,7 @@
     </script>
     ```
 
-    > [view source](./auth.html#L15)
+    > [view source](./auth.html#L14)
 
 ## *Thank You*
 
