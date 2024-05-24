@@ -11,6 +11,7 @@
 
     ```html
     <script id="otpless-sdk" type="text/javascript" src="https://otpless.com/auth.js" appid="PASTE_YOUR_APPID_HERE"></script>
+    <button id="otpless" custom="true">Get Started</button>
     ```
 
     > [view source](./auth.html#L12)
@@ -18,21 +19,22 @@
 3. **Retrieving User's Information**
 
     > Implement the following script to retrieve and log the user's information.
-    >> Add your custom logic to handle UserData(**otplessUser**) and redirect post authentication in the `otpless` function.
+    >
+    > > Add your custom logic to handle UserData(**otplessUser**) and redirect post authentication in the `otpless` function.
 
     ```html
     <script type="text/javascript">
-        function otpless(otplessUser) {
-            // Add your Custom logic here to handle UserData(otplessUser) and redirect post authentication.
-            console.log(otplessUser);
-            alert(JSON.stringify(otplessUser));
-            window.location.href = '/';
-        }
+    	function otpless(otplessUser) {
+    		// Add your Custom logic here to handle UserData(otplessUser) and redirect post authentication.
+    		console.log(otplessUser)
+    		alert(JSON.stringify(otplessUser))
+    		window.location.href = '/'
+    	}
     </script>
     ```
 
     > [view source](./auth.html#L14)
 
-## *Thank You*
+## _Thank You_
 
 ## [Visit OTPless](https://otpless.com/platforms/javascript)
