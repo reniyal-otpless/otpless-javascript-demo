@@ -1,23 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-        <meta charset="UTF-8" />
+		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>OTPlessAuth ->JS</title>
 		<link rel="stylesheet" type="text/css" href="style.css" />
 		<link rel="icon" type="image/x-icon" href="https://otpless.com/favicon.ico" />
+		<script id="otpless-sdk" type="text/javascript" src="https://otpless.com/v2/headless.js" data-appid="PASTE_YOUR_APPID_HERE"></script>
 		<script type="text/javascript" src="script.js" defer></script>
 	</head>
 	<body>
-		<script id="otpless-sdk" type="text/javascript" src="https://otpless.com/v2/auth.js" data-appid="PASTE_YOUR_APPID_HERE"></script>
-		<div id="otpless-login-page"></div>
+		<div id="mobile-section">
+			<input id="mobile-input" placeholder="Enter mobile number" />
+			<button onclick="phoneAuth()">Request OTP</button>
+		</div>
+		<div id="otp-section" style="display: none">
+			<input id="otp-input" placeholder="Enter OTP" />
+			<button onclick="verifyOTP()">Verify OTP</button>
+		</div>
+		<button onclick="oauth('WHATSAPP')">Continue with WhatsApp</button>
+		<button onclick="oauth('GMAIL')">Continue with Gmail</button>
 
-		<script type="text/javascript">
-			function otpless(otplessUser) {
-				//  Add your Custom logic here to handle UserData(otplessUser) and redirect post authentication.
+		<!-- Add more buttons for different OAuth providers as needed -->
+
+		<script>
+			const mobileInput = document.getElementById('mobile-input')
+			const otpInput = document.getElementById('otp-input')
+
+			// Callback function for OTPless SDK. Gets executed after successful authentication and returns UserData object(otplessUser).
+			const callback = (otplessUser) => {
+				// Add your Custom logic here to handle UserData(otplessUser) and redirect post authentication.
+				const emailMap = otplessUser.identities.find((item) => item.identityType === 'EMAIL')
+				const mobileMap = otplessUser.identities.find((item) => item.identityType === 'MOBILE')
+
+				const token = otplessUser.token
+				const email = emailMap?.identityValue
+				const mobile = mobileMap?.identityValue
+
+				const name = emailMap?.name || mobileMap?.name
+
 				console.log(otplessUser)
-				alert(JSON.stringify(otplessUser))
-				window.location.href = '/'
+				alert(JSON.stringify({ email, mobile, name, token }))
+			}
+			// Initialize OTPLESS SDK with the defined callback.
+			const OTPlessSignin = new OTPless(callback)
+
+			// Phone/SMS Authentications OTP/MagicLink
+			const phoneAuth = () => {
+				OTPlessSignin.initiate({
+					channel: 'PHONE',
+					phone: mobileInput.value,
+					countryCode: '+91',
+				})
+			}
+
+			// Email Authentications OTP/MagicLink
+			const emailAuth = () => {
+				OTPlessSignin.initiate({ channel: 'EMAIL', email: emailInput.value })
+			}
+
+			// Social Authentications.
+			// OAuth Providers - 'WHATSAPP' | 'GMAIL' | 'FACEBOOK' | 'MICROSOFT', etc.
+			// Enable your choosen OAuth provider from OTPless dashboard (https://otpless.com/dashboard/customer/channels) > Social Method before using it.
+			const oauth = (provider) => {
+				OTPlessSignin.initiate({ channel: 'OAUTH', channelType: provider })
+			}
+
+			const verifyOTP = () => {
+				OTPlessSignin.verify({
+					channel: 'PHONE',
+					phone: mobileInput.value,
+					otp: otpInput.value,
+					countryCode: '+91',
+				})
 			}
 		</script>
 	</body>
